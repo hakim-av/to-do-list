@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 // 11. Прописываем все заголовки таблицы, добавляем пустой конструктор и геттеры/сеттеры для всех
-// 12. Сделаем первый коммит на гитхаб
+
 public class ToDoRepr {
 
     private Long id;

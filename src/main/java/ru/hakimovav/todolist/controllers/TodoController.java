@@ -11,18 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 9. Корректируем HTML под стилистику фимлиф, добавляя th:"@{}" перед ссылками
 10. Работа с моделью данных repr (Создаем пакет и 2 класса с данными, которые будут храниться
 в базе данных)
+12. Сделаем первый коммит на гитхаб
  */
 
 @Controller
 public class TodoController { // 2. Взаимодействие
 
-    @GetMapping("/login")
-    public String loginPage() { // 4. Переход на страницу логирования
-        return "login";
+    @GetMapping("/")
+    public String indexPage() { // 6. Переход на главную страницу
+        return "index";
     }
 
-    @GetMapping("/register")
-    public String registerPage() { // 5. Переход на страницу регистрации
-        return "register";
+    @GetMapping("/todo")
+    public String todoPage() { // 7. Переход на страницу одного конкретного todoPage
+        return "todo";
     }
+
 }
