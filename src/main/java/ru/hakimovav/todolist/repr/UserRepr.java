@@ -51,4 +51,14 @@ public class UserRepr {
     public void setMatchingPassword(String matchingPassword) {
         this.matchingPassword = matchingPassword;
     }
+
+    @Override
+    public String toString() { // 18. Прописываем вид вывода информации о новом пользователе
+        return "UserRepr{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", matchingPassword='" + matchingPassword + '\'' +
+                '}';
+    }
 }

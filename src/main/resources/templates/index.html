@@ -16,7 +16,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" th:href="@{/}">ToDo</a>
+    <a class="navbar-brand" th:href="@{/}">Список дел</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,14 +26,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" th:href="@{/}">List</a>
+                <a class="nav-link" th:href="@{/}">Дела</a>
             </li>
         </ul>
 
         <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/login}">Login</a>
-            <a class="btn btn-outline-success my-2 my-sm-0" href="#">Logout</a>
-            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/register}">Register</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/login}">Войти</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="#">Выйти</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/register}">Регистрация</a>
         </form>
     </div>
 </nav>
@@ -41,18 +41,18 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <a class="btn btn-primary" th:href="@{/todo}">Add Todo</a>
+            <a class="btn btn-primary" th:href="@{/todo}">Добавить в список</a>
         </div>
 
         <div class="col-12">
             <table class="table table-bordered my-2">
                 <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">User</th>
-                    <th scope="col">Target date</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">№</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Пользователь</th>
+                    <th scope="col">Дата добавления</th>
+                    <th scope="col">Действия</th>
                 </tr>
                 </thead>
                 <tbody>

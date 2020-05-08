@@ -16,7 +16,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" th:href="@{/}">ToDo</a>
+    <a class="navbar-brand" th:href="@{/}">Список дел</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,14 +26,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" th:href="@{/}">List</a>
+                <a class="nav-link" th:href="@{/}">Дела</a>
             </li>
         </ul>
 
         <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/login}">Login</a>
-            <a class="btn btn-outline-success my-2 my-sm-0" href="#">Logout</a>
-            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/register}">Register</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/login}">Войти</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="#">Выйти</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/register}">Регистрация</a>
         </form>
     </div>
 </nav>
@@ -43,21 +43,21 @@
         <div class="col-12">
             <form th:action="@{/register}" method="post" th:object="${user}">
                 <div class="form-group">
-                    <label>User name</label>
-                    <input type="text" class="form-control" th:field="*{username}" placeholder="Enter user name">
+                    <label>Ваше имя</label>
+                    <input type="text" class="form-control" th:field="*{username}" placeholder="Введите ваше имя">
                     <small class="text-danger" th:each="err: ${#fields.errors('username')}" th:text="${err}"></small>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" th:field="*{password}" placeholder="Password">
+                    <label>Пароль</label>
+                    <input type="password" class="form-control" th:field="*{password}" placeholder="Введите пароль">
                     <small class="text-danger" th:each="err: ${#fields.errors('password')}" th:text="${err}"></small>
                 </div>
                 <div class="form-group">
-                    <label>Repeat password</label>
-                    <input type="password" class="form-control" th:field="*{matchingPassword}" placeholder="Repeat password">
+                    <label>Повторите пароль</label>
+                    <input type="password" class="form-control" th:field="*{matchingPassword}" placeholder="Повторите пароль">
                     <small class="text-danger" th:each="err: ${#fields.errors('matchingPassword')}" th:text="${err}"></small>
                 </div>
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="submit" class="btn btn-primary">Регистрация</button>
             </form>
         </div>
     </div>
