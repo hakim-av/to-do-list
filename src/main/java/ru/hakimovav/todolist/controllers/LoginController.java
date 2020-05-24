@@ -24,6 +24,10 @@ import javax.validation.Valid;
 28. Создаем Пакет Service и класс UserService в нем, он будет ответственен за преобразования
 33. Создаем UserService на этой странице и создадим для него конструктор
 34. Добавляем userService.create(userRepr); перед return "redirect://login";
+35. Подключаем Spring Security, включаем в ToDoListApplication кодировщик паролей
+36. Создаем папку security и добавляем туда 3 класса.
+64. Корректируем логин.хтмл, добавляем thymleaf extra в pom.xml
+65. Корректируем все остальные хтмл с учетом логин/логаут
  */
 
 @Controller
