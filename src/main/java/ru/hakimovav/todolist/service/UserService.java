@@ -8,6 +8,9 @@ import ru.hakimovav.todolist.persist.repo.UserRepository;
 import ru.hakimovav.todolist.repr.UserRepr;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
+
+import static ru.hakimovav.todolist.security.Utils.getCurrentUser;
 
 @Service // 29. Указывает что данный класс следует создать
 @Transactional
@@ -28,5 +31,10 @@ public class UserService {
         user.setUsername(userRepr.getUsername());
         user.setPassword(passwordEncoder.encode(userRepr.getPassword()));
         userRepository.save(user); // 32. Сохраняем юзера
+    }
+    public Optional<Long> getCurrentUserId() {
+        return getCurrentUser()
+                .flatMap(userRepository::getUserByUsername)
+                .map(User::getId);
     }
 }

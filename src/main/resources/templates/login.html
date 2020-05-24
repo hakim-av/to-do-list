@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
-    <title>Login</title>
+    <title>Вход</title>
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" th:href="@{/}">Список дел</a>
+    <a class="navbar-brand" th:href="@{/}">Дела</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,6 @@
         </ul>
 
         <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
-            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/login}">Войти</a>
             <button sec:authorize="isAuthenticated()" class="btn btn-outline-success my-2 my-sm-0">Выйти</button>
             <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/register}">Регистрация</a>
         </form>
@@ -47,11 +46,11 @@
                 <div class="form-group">
                     <label for="username">Ваше имя</label>
                     <input type="text" class="form-control" id="username" name="username" placeholder="Введите ваше имя">
-                    <small class="form-text text-danger" th:if="${param.error != null}">Неправильно указано имя или пароль</small>
+                    <small class="form-text text-danger" th:if="${param.error != null}">Некорректный ввод пароля</small>
                 </div>
                 <div class="form-group">
                     <label for="password">Пароль</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Введите пароль">
                 </div>
                 <button type="submit" class="btn btn-primary">Войти</button>
                 <a class="px-3" th:href="@{/register}">Регистрация</a>

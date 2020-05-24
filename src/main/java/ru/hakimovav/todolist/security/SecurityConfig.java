@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // 38. Создаем класс SecurityConfig
 
     private PasswordEncoder passwordEncoder; // 39. Создаем объект passwordEncoder
-
     private UserAuthService userAuthService; // 51. Создаем объект из авторизации
 
     @Autowired
@@ -37,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 38. Соз
     protected void configure(HttpSecurity http) throws Exception { // 54. Пишем, как именно защищаем наше приложение
         http
                 .authorizeRequests()
-                .antMatchers("/").authenticated() // 55. Делаем страницу туду доступной только авторизованным пользователям
+                .antMatchers("/todo/*").authenticated() // 55. Делаем страницу туду доступной только авторизованным пользователям
                 .and()
                 .formLogin() // 56. Делаем форму для логина
                 .loginPage("/login") // 57. Адрес логирования

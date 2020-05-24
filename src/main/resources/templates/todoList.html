@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
-    <title>ToDo list application</title>
+    <title>Список дел</title>
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" th:href="@{/}">Список дел</a>
+    <a class="navbar-brand" th:href="@{/todo/all}">Список дел</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,14 +28,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" th:href="@{/}">Дела</a>
+                <a class="nav-link" th:href="@{/todo}">Дело</a>
             </li>
         </ul>
 
         <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
-            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/login}">Войти</a>
             <button sec:authorize="isAuthenticated()" class="btn btn-outline-success my-2 my-sm-0">Выйти</button>
-            <a class="btn btn-outline-success my-2 my-sm-0" th:href="@{/register}">Регистрация</a>
         </form>
     </div>
 </nav>
@@ -43,7 +41,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <a class="btn btn-primary" th:href="@{/todo}">Добавить в список</a>
+            <a class="btn btn-primary" th:href="@{/todo/create}">Добавить дело</a>
         </div>
 
         <div class="col-12">
@@ -58,34 +56,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Bootstrap 4 CDN and Starter Template</td>
-                    <td>Cristina</td>
-                    <td>01.01.2020</td>
-                    <td>
-                        <a class="btn btn-success" href="todo.html"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
-                    </td>
+                <tr th:if="${todos.empty}">
+                    <td class="text-center" colspan="5">Нет даты</td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Bootstrap Grid 4 Tutorial and Examples</td>
-                    <td>Cristina</td>
-                    <td>01.01.2020</td>
+                <tr th:each="todo : ${todos}">
+                    <th scope="row" th:text="*{todo.id}">1</th>
+                    <td th:text="${todo.description}">Bootstrap 4 CDN and Starter Template</td>
+                    <td th:text="${todo.username}">Cristina</td>
+                    <td th:text="${todo.targetDate}">01.01.2020</td>
                     <td>
-                        <a class="btn btn-success" href="todo.html"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Bootstrap Flexbox Tutorial and Examples</td>
-                    <td>Cristina</td>
-                    <td>01.01.2020</td>
-                    <td>
-                        <a class="btn btn-success" href="todo.html"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
+                        <a class="btn btn-success" th:href="@{/todo/{id}(id=${todo.id})}"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger" th:href="@{/todo/delete/{id}(id=${todo.id})}"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 </tbody>

@@ -1,6 +1,7 @@
 package ru.hakimovav.todolist.persist.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 /*
 27. Создаем сущности и таблицу под базу данных, конструктор и гет/сет по умолчанию должны быть обязательно
@@ -19,6 +20,13 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(
+          mappedBy =  "user",
+          cascade = CascadeType.ALL,
+          orphanRemoval = true
+    )
+    private List<ToDo> todos; // 68. Та самая связь двух таблиц баз данных
 
     public User() {
     }
