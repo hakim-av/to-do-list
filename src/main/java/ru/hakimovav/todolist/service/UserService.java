@@ -1,6 +1,7 @@
 package ru.hakimovav.todolist.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.hakimovav.todolist.persist.entity.User;
 import ru.hakimovav.todolist.persist.repo.UserRepository;
@@ -14,15 +15,18 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final BCryptPasswordEncoder passwordEncoder;
+
     @Autowired // 30. Создаст и найдет другой класс реализующий UserRepository и передаст его в качестве параметра в конструктор
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void create(UserRepr userRepr) { // 31. Создание нового пользователя
         User user = new User ();
         user.setUsername(userRepr.getUsername());
-        user.setPassword(userRepr.getPassword());
+        user.setPassword(passwordEncoder.encode(userRepr.getPassword()));
         userRepository.save(user); // 32. Сохраняем юзера
     }
 }
