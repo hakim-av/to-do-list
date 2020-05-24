@@ -19,7 +19,7 @@ public class ToDoRepr {
     private String username;
 
     @NotNull // Чтобы не было нуля
-    @DateTimeFormat(pattern = "dd-MM-yyyy") // Формат даты
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // Формат даты
     private LocalDate targetDate;
 
     public ToDoRepr() {
