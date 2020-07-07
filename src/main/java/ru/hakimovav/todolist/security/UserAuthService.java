@@ -11,20 +11,21 @@ import ru.hakimovav.todolist.persist.repo.UserRepository;
 import javax.transaction.Transactional;
 import java.util.Collections;
 
+// Данный класс отвечает за авторизацию пользователей
 @Service
 @Transactional
-public class UserAuthService implements UserDetailsService { // 43. Создаем сервис авторизации пользователей, добавляем аннотации
+public class UserAuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
     @Autowired
     public UserAuthService(UserRepository userRepository) { // 44. Создаем конструктор
         this.userRepository = userRepository;
     }
 
+    // На основе метода loadUserByUsername из интерфейса UserDetails прописываем извлечение данных из БД для авторизации
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { // 42. Создаем метод
-        return userRepository.getUserByUsername(username) // 47. Извлекаем по имени (48, 49, 50 пункты исключены)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.getUserByUsername(username) // Извлекаем по имени
                 .map(user -> new org.springframework.security.core.userdetails.User(
                         user.getUsername(),
                         user.getPassword(),

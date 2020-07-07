@@ -14,60 +14,44 @@ import ru.hakimovav.todolist.service.UserService;
 
 import javax.validation.Valid;
 
-
-/*
-14. Реализуем отправку данных при нажатии на регистрацию в базу данных
-21. После создания возможности регистрации пользователей, кооректируем шаблон добавляя действие-регистрацию
-25. На страницах html прописываем ошибки, некорректный пароль
-26. Подсоединяем базу данных, добавляя разрешения в application.properties. Затем создаем пакет Persist и внутри него
-пакеты entity и repo. В пакете entity добавляем класс User в который прописываем генерацию данных для базы данных
-28. Создаем Пакет Service и класс UserService в нем, он будет ответственен за преобразования
-33. Создаем UserService на этой странице и создадим для него конструктор
-34. Добавляем userService.create(userRepr); перед return "redirect://login";
-35. Подключаем Spring Security, включаем в ToDoListApplication кодировщик паролей
-36. Создаем папку security и добавляем туда 3 класса.
-64. Корректируем логин.хтмл, добавляем thymleaf extra в pom.xml
-65. Корректируем все остальные хтмл с учетом логин/логаут
- */
-
 @Controller
-public class LoginController { // 3. Регистрация
+public class LoginController { // Реализуем контроллер для регистрации и входа в приложение
 
-    // 19. Прописываем логирование
+    // Прописываем логирование
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
+    // Внедряем бин в котором прописана логика регистрации юзера
     private final UserService userService;
-
     @Autowired
     public LoginController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
-    public String loginPage() { // 4. Переход на страницу логирования
+    @GetMapping("/login") // Ловим запрос на получение страницы по URI /login и возвращаем ее
+    public String loginPage() {
         return "login";
     }
 
     @GetMapping("/register")
-    public String registerPage(Model model) { // 5. Переход на страницу регистрации
-        model.addAttribute("user", new UserRepr()); // 16. Добавление нового пользователя класса UserRepr.java
+    public String registerPage(Model model) { // Ловим запрос на получение страницы по URI /register и возвращаем ее
+        model.addAttribute("user", new UserRepr()); // Добавление нового пользователя класса UserRepr.java
         return "register";
     }
 
-    @PostMapping("/register") // 15. Метод регистрация нового пользователя
-    public String registerNewUser(@ModelAttribute("user") @Valid UserRepr userRepr, // 17. Прописываем данные юзера
-                                  BindingResult result) { // 22. Прописываем проверку на валидацию
-        logger.info("New user {}", userRepr); // 20. Прописываем сам вывод информации о пользователе
-
-        if (result.hasErrors()) { // 23. Прописываем возможные ошибки
-            return "register";
-        }
-        if (!userRepr.getPassword().equals(userRepr.getMatchingPassword())) { // 24. Прописываем некорректный пароль
-            result.rejectValue("password","", "Пароли не совпадают");
-            return "register";
-        }
-
-        userService.create(userRepr);
-        return "redirect:/login";
-    }
+    @PostMapping("/register") // Ловим запрос на отправку данных по URI /register
+    public String registerNewUser(
+            @ModelAttribute("user")
+            @Valid UserRepr userRepr, // 17. Прописываем данные юзера
+            BindingResult result) { // 22. Прописываем проверку на валидацию
+                logger.info("New user {}", userRepr); // 20. Прописываем сам вывод информации о пользователе
+                if (result.hasErrors()) { // 23. Прописываем возможные ошибки
+                    return "register";
+                }
+                if (!userRepr.getPassword().equals(userRepr.getMatchingPassword())) { // 24. Прописываем некорректный пароль
+                    result.rejectValue("password","", "Пароли не совпадают");
+                    return "register";
+                }
+                userService.create(userRepr);
+                return "redirect:/login";
+            }
 }

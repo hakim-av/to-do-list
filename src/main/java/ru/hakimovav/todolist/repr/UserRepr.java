@@ -4,7 +4,7 @@ import javax.validation.constraints.NotEmpty;
 
 public class UserRepr {
 
-    // 13. Создаем 4 атрибута, создаем пустой конструктор, гет/сет для всех
+    // 13. Создаем POJO класс для вывода информации, 4 атрибута, создаем пустой конструктор, гет/сет для всех
 
     private Long id;
 

@@ -10,14 +10,11 @@ public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
     private String description;
-
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user; // 67. Делаем связь юзера и его личного списка дел
-
+    @JoinColumn(name = "user_id") // Ключ объединяющий таблицы базы данных
+    private User user; // Делаем связь юзера и его личного списка дел
     @Column
     private LocalDate targetDate;
 

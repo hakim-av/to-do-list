@@ -7,31 +7,29 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-// 11. Прописываем все заголовки таблицы, добавляем пустой конструктор и геттеры/сеттеры для всех
+// 11. POJO класс для представления дел во View To Do
 
 public class ToDoRepr {
 
     private Long id;
-
-    @NotEmpty // Чтобы не было пустой
+    @NotEmpty
     private String description;
-
     private String username;
-
-    @NotNull // Чтобы не было нуля
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd") // Формат даты
     private LocalDate targetDate;
 
-    public ToDoRepr() {
+    public ToDoRepr() { // Пустой конструктор, чтобы не было ошибки
     }
 
-    public ToDoRepr(ToDo toDo) { // 72. Создаем конструктор получающий значения
+    public ToDoRepr(ToDo toDo) { // 72. Конструктор возвращающий имеющиеся значения
         this.id = toDo.getId();
         this.description = toDo.getDescription();
         this.targetDate = toDo.getTargetDate();
         this.username = toDo.getUser().getUsername();
     }
 
+    // Конструктор передающий значения
     public ToDoRepr(Long id, @NotEmpty String description, String username, @NotNull LocalDate targetDate) {
         this.id = id;
         this.description = description;

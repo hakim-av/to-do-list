@@ -10,46 +10,49 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+// В данном классе прописываем какие страницы доступны только после авторизации
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter { // 38. Создаем класс SecurityConfig
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private PasswordEncoder passwordEncoder; // 39. Создаем объект passwordEncoder
-    private UserAuthService userAuthService; // 51. Создаем объект из авторизации
-
+    // Создаем бины passwordEncoder и авторизации
+    private PasswordEncoder passwordEncoder;
+    private UserAuthService userAuthService;
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) { // 40. Делаем автозаполнение
         this.passwordEncoder = passwordEncoder;
     }
-
     @Autowired
     public void setUserAuthService(UserAuthService userAuthService) { // 52. Делаем автозаполнение
         this.userAuthService = userAuthService;
     }
 
+    // Внедряем authenticationProvider
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) { // 41. Прописываем метод configure
-        auth.authenticationProvider(authenticationProvider()); // 53. Внедряем authenticationProvider
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authenticationProvider());
     }
 
+    // Данный метод как раз указывает, какие страницы доступны, а какие нет
     @Override
-    protected void configure(HttpSecurity http) throws Exception { // 54. Пишем, как именно защищаем наше приложение
+    protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/todo/*").authenticated() // 55. Делаем страницу туду доступной только авторизованным пользователям
+                .antMatchers("/todo/*").authenticated() // Делаем страницу туду доступной только авторизованным пользователям
                 .and()
-                .formLogin() // 56. Делаем форму для логина
-                .loginPage("/login") // 57. Адрес логирования
-                .loginProcessingUrl("/authenticateTheUser") // 58. Куда отправляются данные логирования
-                .permitAll() // 59. Доступ к странице всем кто зашел на сайт
+                .formLogin() // Делаем форму для логина
+                .loginPage("/login") // Адрес логирования
+                .loginProcessingUrl("/authenticateTheUser") // Куда отправляются данные логирования
+                .permitAll() // Доступ к странице всем кто зашел на сайт
                 .and()
-                .logout() // 60. Делаем логаут
-                .logoutSuccessUrl("/login") // 61. После логаута снова переходим на страницу логина
-                .permitAll(); // 62. Доступ к странице всем кто зашел на сайт
+                .logout() // Делаем логаут
+                .logoutSuccessUrl("/login") // Куда переходим после логаута
+                .permitAll(); // Доступ к странице всем кто зашел на сайт
     }
 
+    // Создаем бин authenticationProvider, для авторизации
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() { // 52. Создаем бин authenticationProvider, для авторизации
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userAuthService);
         auth.setPasswordEncoder(passwordEncoder);

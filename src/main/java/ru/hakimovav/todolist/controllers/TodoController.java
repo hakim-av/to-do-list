@@ -17,72 +17,60 @@ import java.util.List;
 
 import static ru.hakimovav.todolist.security.Utils.getCurrentUser;
 
-/*
-1. Прописываем зависимости в pom.xml (Убираем временно, что не нужно и пересобираем пакет).
-Прописываем зависимости в application.properties. Заливаем в темплейтс наши HTML.
-Создаем пакет контроллеров и создаем там два класса контроллера.
-8. В HTML прописываем xmlns:th="http://www.thymeleaf.org"
-9. Корректируем HTML под стилистику фимлиф, добавляя th:"@{}" перед ссылками
-10. Работа с моделью данных repr (Создаем пакет и 2 класса с данными, которые будут храниться
-в базе данных)
-12. Сделаем первый коммит на гитхаб
-66. Создаем базу данных дел To Do
- */
-
 @Controller
-public class TodoController {
+public class TodoController { // Реализуем контроллер для списка дел
 
-    private ToDoService toDoService; // 77. Создаем объект из сервиса
+    // Внедряем бины, через которых будем работать с юзерами и их делами
+    private ToDoService toDoService;
     private UserService userService;
-
     @Autowired
     public TodoController(ToDoService toDoService, UserService userService) {
         this.toDoService = toDoService;
         this.userService = userService;
     }
-    @GetMapping("")
-    // 6. Переход на главную страницу
-    // 78. Корректируем переход на главную страницу с учетом новых блоков
+    @GetMapping("") // Ловим запрос на получение главной страницы по URI:""
     public String mainPage() {
-        return "redirect:/todo/all";
+        return "redirect:/todo/all"; // Переадресовываем запрос на URI:"/to do/all"
     }
 
-    @GetMapping("/todo/all") // 79. Просмотр всех to do
+    @GetMapping("/todo/all") // Ловим запрос на URI:"/to do/all"
     public String allTodosPage(Model model) {
-        List<ToDoRepr> todos = getCurrentUser()
-                .map(toDoService::findToDoByUser_Username)
+        List<ToDoRepr> todos = getCurrentUser() // Проверяем на авторизацию
+                .map(toDoService::findToDoByUser_Username) // Вытаскиваем дела конкретного юзера
                 .orElseThrow(IllegalStateException::new);
         model.addAttribute("todos", todos);
-        return "todoList";
+        return "todoList"; // Страница со всем списком дел для юзера
     }
 
-    @GetMapping("/todo/{id}")
-    public String todoPage(@PathVariable("id") Long id, Model model) {
-        // 7. Переход на страницу одного конкретного todoPage
-        // 80. Корректируем с учетом новых блоков
-        ToDoRepr toDoRepr = toDoService.findById(id)
+    @GetMapping("/todo/{id}") // Ловим запрос на страницу одного конкретного todoPage
+    public String todoPage(
+            @PathVariable("id") Long id,
+            Model model) {
+        ToDoRepr toDoRepr = toDoService.findById(id) // Передаем на страницу конкретно одно дело
                 .orElseThrow(ResourceNotFoundException::new);
-        model.addAttribute("todo", toDoRepr);
-        return "todo";
+        model.addAttribute("todo", toDoRepr); // Добавляем на HTML страницу данные
+        return "todo"; // Страница самого совпадает со страницей создания дела, просто атрибут "to do" в HTML меняется
     }
-    @GetMapping("/todo/create") // 81. Создаем контроллер получения нового дела
+
+    @GetMapping("/todo/create") // Ловим запрос на получение страницы создания нового дела по URI:"/to do/create"
     public String createTodoPage(Model model) {
         model.addAttribute("todo", new ToDoRepr());
-        return "todo";
+        return "todo"; // Страница создания совпадает со страницей самого дела, просто атрибут "to do" в HTML меняется
     }
 
-    @PostMapping("/todo/create")  // 82. Создаем контроллер создания нового дела
-    public String createTodoPost(@ModelAttribute("todo") @Valid ToDoRepr toDoRepr,
-                                 BindingResult result) {
-        if (result.hasErrors()) {
-            return "todo";
-        }
+    @PostMapping("/todo/create")  // Ловим запрос на само создание нового дела по URI:"/to do/create"
+    public String createTodoPost(
+            @ModelAttribute("todo")
+            @Valid ToDoRepr toDoRepr,
+            BindingResult result) { // BindingResult result проверка на валидность
+                if (result.hasErrors()) { // Если возникла ошибка возвращаем страницу создания
+                    return "todo";
+                }
+                toDoService.save(toDoRepr); // Сохраняем это дело в репозитории и обновляем страницу
+                return "redirect:/";
+            }
 
-        toDoService.save(toDoRepr);
-        return "redirect:/";
-    }
-
-    @GetMapping("/todo/delete/{id}") // 83. Создаем контроллер удаления дела
+    @GetMapping("/todo/delete/{id}") // Ловим запрос на удаление дела
     public String deleteTodo(@PathVariable Long id) {
         toDoService.delete(id);
         return "redirect:/";

@@ -14,19 +14,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(unique = true, nullable = false)
     private String username;
-
     @Column(nullable = false)
     private String password;
-
     @OneToMany(
-          mappedBy =  "user",
+          mappedBy = "user",
           cascade = CascadeType.ALL,
           orphanRemoval = true
     )
-    private List<ToDo> todos; // 68. Та самая связь двух таблиц баз данных
+    private List<ToDo> todos; // Та самая связь двух таблиц баз данных
 
     public User() {
     }

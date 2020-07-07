@@ -13,30 +13,34 @@ import java.util.Optional;
 
 import static ru.hakimovav.todolist.security.Utils.getCurrentUser;
 
+// Здесь реализована вся логика работы с Ту Ду объектами передаваемая через запросы в Controller
 @Service
 @Transactional
-public class ToDoService { // 70. Создаем сервис работы с To Do
+public class ToDoService {
 
+    // Внедряем бины из интерфейсов
     private ToDoRepository toDoRepository;
-
     private UserRepository userRepository;
-
     @Autowired
     public ToDoService(ToDoRepository toDoRepository, UserRepository userRepository) {
         this.toDoRepository = toDoRepository;
         this.userRepository = userRepository;
     }
 
-    public Optional<ToDoRepr> findById(Long id) { // 71. Метод поиска дел по его ID
+    // Реализуем логику передачи дела по id дела (метод findById берется из CrudRepository)
+    public Optional<ToDoRepr> findById(Long id) {
         return toDoRepository.findById(id)
                 .map(ToDoRepr::new);
     }
 
-    public List<ToDoRepr> findToDoByUser_Username(String username) { // 73. Находим по юзернейму дела
+    // Реализуем логику передачи дела по Username (метод findToDoByUser_Username берется из toDoRepository)
+    public List<ToDoRepr> findToDoByUser_Username(String username) {
         return toDoRepository.findToDoByUser_Username(username);
     }
 
-    public void save(ToDoRepr toDoRepr) { // 75. Создаем метод сохранения дел
+    // Реализуем логику создания и сохранения дел (метод getCurrentUser берется из Utils)
+    // Метод createTodoPost из контроллера переходит в метод save
+    public void save(ToDoRepr toDoRepr) {
         getCurrentUser()
                 .flatMap(userRepository::getUserByUsername)
                 .ifPresent(user -> {
@@ -49,7 +53,8 @@ public class ToDoService { // 70. Создаем сервис работы с To
                 });
     }
 
-    public void delete(Long id) { // 76. Создаем метод удаления дел
+    // Реализуем логику удаления дел (метод findById берется из CrudRepository)
+    public void delete(Long id) {
         toDoRepository.findById(id)
                 .ifPresent(toDo -> toDoRepository.delete(toDo));
     }

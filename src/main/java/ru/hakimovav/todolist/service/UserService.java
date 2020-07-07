@@ -12,25 +12,24 @@ import java.util.Optional;
 
 import static ru.hakimovav.todolist.security.Utils.getCurrentUser;
 
-@Service // 29. Указывает что данный класс следует создать
+@Service
 @Transactional
 public class UserService {
-
+    // Создаем бины на основе Юзер класса и реализации шифровальщика
     private final UserRepository userRepository;
-
     private final BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired // 30. Создаст и найдет другой класс реализующий UserRepository и передаст его в качестве параметра в конструктор
+    @Autowired
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void create(UserRepr userRepr) { // 31. Создание нового пользователя
-        User user = new User ();
+    // Реализуем логику создания нового пользователя и внесения его в БД (метод create здесь же
+    public void create(UserRepr userRepr) {
+        User user = new User (); // Связь с сущностью User
         user.setUsername(userRepr.getUsername());
         user.setPassword(passwordEncoder.encode(userRepr.getPassword()));
-        userRepository.save(user); // 32. Сохраняем юзера
+        userRepository.save(user); // Сохраняем юзера в БД
     }
     public Optional<Long> getCurrentUserId() {
         return getCurrentUser()

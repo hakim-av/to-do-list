@@ -8,9 +8,11 @@ import ru.hakimovav.todolist.persist.entity.User;
 
 import java.util.Optional;
 
+// Данный интерфейс связывает класс сущности БД User и POJO класс User
+// Наследуемся от CrudRepository и передаем сущность Entity
 @Repository
 public interface UserRepository extends CrudRepository <User, Long> {
 
-    boolean existsByUsername(String username); // 46. Делаем проверку
-    Optional<User> getUserByUsername(String username); // 45. Генерируем выдачу юзернейм
+    boolean existsByUsername(String username); // Возможно ошибка и данный метод не нужен
+    Optional<User> getUserByUsername(String username); // Получение имени юзера
 }

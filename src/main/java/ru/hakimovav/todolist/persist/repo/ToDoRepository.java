@@ -8,12 +8,12 @@ import ru.hakimovav.todolist.repr.ToDoRepr;
 
 import java.util.List;
 
-// 69. Создаем интерфейс работы с репозиторием To Do
-
+// Данный интерфейс связывает класс сущности БД To Do и POJO класс To Do
+// Наследуемся от CrudRepository и передаем сущность Entity
 @Repository
 public interface ToDoRepository extends CrudRepository<ToDo, Long> {
 
-    List<ToDoRepr> findToDoByUser_Username(String username); // 74. Извлекаем информацию из списка дел по имени
-
-    List<ToDoRepr> findToDoByUser(User user);
+    // Создаем методы и устанавливаем связь между данным интерфейсом и классом ToDoRepr
+    List<ToDoRepr> findToDoByUser_Username(String username);
+    List<ToDoRepr> findToDoByUser(User user); // Возможно ошибка и данный метод не нужен
 }

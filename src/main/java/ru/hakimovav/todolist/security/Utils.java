@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public final class Utils {
 
+    // Логика передачи информации только авторизованным пользователям
     public static Optional<String> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
